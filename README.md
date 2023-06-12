@@ -2,7 +2,7 @@
 
 _Para este desarrollo se espera que construyas una base de datos en AWS, extraigas información de la API de CoinMarketCap mediante una función Lambda escrita en Python, y luego despliegues una página web donde muestres un gráfico con la información extraída utilizando un contenedor Docker y, finalmente, implementes un flujo de trabajo de integración continua con GitHub Actions_
 
-![diagrama drawio](https://github.com/JohanPosso/testfront/assets/74286128/2593456b-ca8c-4892-8781-2fdbb8cb0342)
+![diagrama](https://github.com/JohanPosso/testfront/assets/74286128/8d0e5a3d-596b-419d-8aec-c5451114bd21)
 
 
 ## Comenzando 🚀
@@ -386,37 +386,93 @@ Ademas puedes usar **Docker Hub** es un servicio en la nube que ofrece un regist
 
 
 
-## Ejecutando las pruebas con integración continua con GitHub Actions ⚙️
+## Integración continua con GitHub Actions ⚙️
 
-_Explica como ejecutar las pruebas automatizadas para este sistema_
+Aplicamos la integracion continua usando Github Actions y Docker Hub, para automatizar el proceso de construcción de imágenes de Docker y su posterior publicación en el registro de imágenes de Docker Hub. Lo que facilita el proceso de despliegue de una aplicación en cualquier entorno.
 
-### Analice las pruebas end-to-end 🔩
+- Cree una cuenta en Docker Hub si aún no tienes una.
+- Cre un repositorio en Docker Hub donde almacenarás tus imágenes Docker.
+- Configurar el archivo de flujo de trabajo en GitHub Actions:
 
-_Explica que verifican estas pruebas y por qué_
+En tu repositorio de GitHub, crea un directorio llamado ".github/workflows" si aún no existe.
+Dentro de ese directorio, crea un archivo YAML para definir el flujo de trabajo de CI. Por ejemplo, "ci.yml".
+
+- En este archivo YAML, define los pasos y acciones que quieres realizar durante el proceso de integración continua.
+- Configura los desencadenadores para que el flujo de trabajo se ejecute automáticamente en ciertos eventos, como push a una rama específica.
+
+## Configurar los pasos del flujo de trabajo:
+
+Dentro del archivo YAML, definimos los pasos necesarios para construir y enviar la imagen Docker a Docker Hub.
+Utiliza las acciones proporcionadas por GitHub Actions y Docker Hub para realizar las tareas requeridas.
+Por ejemplo, puedes usar acciones como "checkout" para clonar el repositorio, "build" para construir la imagen Docker y "push" para enviarla a Docker Hub.
+Configura los parámetros necesarios para cada acción, como el nombre de usuario y contraseña de Docker Hub.
+
+Guardar y realizar pruebas:
 
 ```
-Da un ejemplo
+# Inicio de sesión en Docker Hub usando la acción de inicio de sesión de Docker
+
+- name: Log in to Docker Hub
+  uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+  with:
+  # Reemplaza con tu nombre de usuario de Docker Hub almacenado en los secretos de GitHub
+  username: ${{ secrets.DOCKER_USERNAME }}  
+   password: ${{ secrets.DOCKER_PASSWORD }} # Reemplaza con tu contraseña de Docker Hub almacenada en los secretos de GitHub
+
+# Construye y sube la imagen de Docker
+
+- name: Build and push the Docker image
+  run: |
+  # Construye la imagen usando el archivo Dockerfile y le asigna una etiqueta
+  docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/testback
+  # Sube la imagen a Docker Hub
+  docker push ${{ secrets.DOCKER_USERNAME }}/testback
+
+# Actualiza los servicios con Docker Compose
+
+- name: Update services with Docker Compose
+  run: |
+  # Actualiza las imágenes de los servicios definidos en el archivo docker-compose.yml
+  docker-compose pull
+  # Inicia los servicios en segundo plano
+  docker-compose up -d
 ```
 
-### Y las pruebas de estilo de codificación ⌨️
+En resumen, la integración de Github Actions y Docker Hub simplifica y agiliza el proceso de creación, prueba y despliegue de aplicaciones en contenedores Docker y permite un flujo de trabajo de desarrollo más eficiente y ágil.
 
-_Explica que verifican estas pruebas y por qué_
+Con estos pasos, habrás implementado la integración continua utilizando GitHub Actions y Docker Hub. Cada vez que realices cambios en tu repositorio y los empujes, el flujo de trabajo se ejecutará automáticamente, construirá la imagen Docker y la enviará a Docker Hub para su almacenamiento y uso posterior.
 
-```
-Da un ejemplo
-```
+
 
 ## Despliegue 📦
 
-_Agrega notas adicionales sobre como hacer deploy_
+Se realizan despliegues con el fin de probar la integracion, ejecucion y automatizacion, de los repositorios y contenedores, como se muestra a continuacion:
+
+
+<img width="1091" alt="Captura de pantalla 2023-06-12 a la(s) 7 16 45 p  m" src="https://github.com/JohanPosso/testfront/assets/74286128/8bada381-34c6-43db-ab22-483dcebe060d">
+
+
+<img width="1091" alt="Captura de pantalla 2023-06-12 a la(s) 7 17 04 p  m" src="https://github.com/JohanPosso/testfront/assets/74286128/ce7e3c42-0711-4aaa-8488-ddc9c7167d2c">
+
+
+<img width="1091" alt="Captura de pantalla 2023-06-12 a la(s) 7 18 17 p  m" src="https://github.com/JohanPosso/testfront/assets/74286128/40084a64-d9fc-415f-835c-75568223b20b">
+
+
 
 ## Construido con 🛠️
 
-_Menciona las herramientas que utilizaste para crear tu proyecto_
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - El framework web usado
-* [Maven](https://maven.apache.org/) - Manejador de dependencias
-* [ROME](https://rometools.github.io/rome/) - Usado para generar RSS
+* Vue.js 
+* Node.js
+* Sequelize
+* Express
+* PostgreSQL
+* AWS RDS
+* AWS Lambda
+* AWS EventBridge
+* AWS Clo
+* Vite
+* Docker
+* Github Actions
 
 
 ## Autor ✒️
