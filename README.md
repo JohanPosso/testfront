@@ -2,7 +2,7 @@
 
 _Para este desarrollo se espera que construyas una base de datos en AWS, extraigas información de la API de CoinMarketCap mediante una función Lambda escrita en Python, y luego despliegues una página web donde muestres un gráfico con la información extraída utilizando un contenedor Docker y, finalmente, implementes un flujo de trabajo de integración continua con GitHub Actions_
 
-![diagrama drawio](https://github.com/JohanPosso/testfront/assets/74286128/603820cb-1a9e-447f-b1a9-dc527fcc135b)
+![diagrama drawio](https://github.com/JohanPosso/testfront/assets/74286128/2593456b-ca8c-4892-8781-2fdbb8cb0342)
 
 
 ## Comenzando 🚀
@@ -14,13 +14,18 @@ _Estas instrucciones te permitirán obtener una copia del proyecto en funcionami
 ### Construcción de una base de datos en AWS
 Crea una base de datos en AWS utilizando: **Amazon RDS**
 
-<img width="1104" alt="Captura de pantalla 2023-06-12 a la(s) 3 16 01 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/c5902950-9959-420f-8743-c3b2b1261f30">
+
+<img width="788" alt="Captura de pantalla 2023-06-12 a la(s) 4 58 11 p  m" src="https://github.com/JohanPosso/testfront/assets/74286128/f2d7aac4-bf72-499d-a26b-95c329aa086b">
+
 
 Usa un administración de bases de datos para facilitar la tarea de mantenimiento y optimización de las bases de datos
 
 Pruebo la conexion a mi base de datos con **DBAVER**
 
-<img width="709" alt="Captura de pantalla 2023-06-12 a la(s) 3 21 13 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/9d0677a2-5a7d-457f-b010-0cd8012c05f3">
+
+<img width="788" alt="Captura de pantalla 2023-06-12 a la(s) 4 59 46 p  m" src="https://github.com/JohanPosso/testfront/assets/74286128/a3ed573d-aa7c-4e90-9446-a3f91866ef35">
+
+
 
 Crea una base de datos en **PostgreSQL**, luego crea una tabla con nombre **bitcoin_prices** con las siguientes columnas:
 
@@ -36,20 +41,21 @@ Importa los modulos necesarios para la ejecucion de un script en python
 
 Establece los parametros de conexion de tu base de datos
 
-![conexion](https://github.com/JohanPosso/testfront/assets/74286128/ca06593b-7deb-41f3-b1db-d43ff8d65657)
+![conexion](https://github.com/JohanPosso/testfront/assets/74286128/51091d36-769c-4c37-af7d-99e7a013ef62)
 
 Usa un cursor para ejecutar consultas a tu base de datos, usa request para peticiones a la **API** y recuperar el precio del Bitcoin
 
-![cursor](https://github.com/JohanPosso/testfront/assets/74286128/7293f98a-8cd6-4209-b44c-6533a39dd15d)
+![cursor](https://github.com/JohanPosso/testfront/assets/74286128/47d47b3e-4b82-4afc-9314-b763a2d896cf)
 
 
 Ejecuta una consulta a la base de datos para insertar el precio del Bitcoin
 
-![consulta](https://github.com/JohanPosso/testfront/assets/74286128/9c1142ff-b3ef-4f23-acfd-031d06122c5a)
+
+![consulta](https://github.com/JohanPosso/testfront/assets/74286128/f500977e-fc65-4776-872b-d29b02ad4b79)
 
 Aqui el codigo completo: 
 
-![python](https://github.com/JohanPosso/testfront/assets/74286128/c5f1fd4e-09b7-4ddd-8aee-9997056ac4f0)
+![python](https://github.com/JohanPosso/testfront/assets/74286128/751b983a-8b4b-4e8e-a59e-aa9bc8d3c207)
 
 ### Crea una funcion Lambda en AWS
 
@@ -57,7 +63,8 @@ Confugura tus variables de entorno, en la pestaña de configuracion, despues opc
 
 Importa el script que anteriormente se hizo en python, comprimelo en un archivo zip y cargalo en la funcion Lambda en la opcion **Cargar desde**
 
-<img width="1282" alt="Captura de pantalla 2023-06-12 a la(s) 3 53 01 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/cf6d65d8-a16e-4338-9f0e-deec0874829e">
+
+<img width="1282" alt="Captura de pantalla 2023-06-12 a la(s) 3 53 01 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/818af7fb-7049-43fc-9225-690df63e8ca0">
 
 Deploya el script en la opcion **Deploy** y ejecuta tu script en la opcion **Test**
 
@@ -65,7 +72,8 @@ Al ejecutar **Test** la funcion se ejecuta, realiza una conexion a la base de da
 
 Si todo salio exitoso deberia retornar un dato JSON, y haber almacenado los datos en la base de datos
 
-<img width="1058" alt="Captura de pantalla 2023-06-12 a la(s) 3 58 13 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/a1468be3-b454-4631-a0cc-5e350e75c514">
+
+<img width="1058" alt="Captura de pantalla 2023-06-12 a la(s) 3 58 13 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/c57f7f58-da5d-415d-bed0-b1cfd0861e35">
 
 ```
 {
@@ -76,14 +84,16 @@ Si todo salio exitoso deberia retornar un dato JSON, y haber almacenado los dato
 
 Revisa tu administrador de base datos donde ya tendrias que tener insertado el dato enviado desde tu funcion Lambda
 
-<img width="464" alt="Captura de pantalla 2023-06-12 a la(s) 4 18 57 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/507efc24-7cd7-4190-b07f-dc61c8c9a356">
+
+<img width="464" alt="Captura de pantalla 2023-06-12 a la(s) 4 18 57 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/a0b83a26-61ba-4a80-98a2-6788dc3ce080">
 
 
 Regresa a tu funcion  a tu funcion Lambda y en el menu de la funcion, dirigite a Configuracion y luego a desencadenadores para crear un evento que se ejecute cada 6 horas desde la funcion lambda, esto tambien se puede hacer directamente desde el servicio **Amazon EventBridge**
 
 Programa un evento un trigger para que se ejecute cada 6 horas, es decir que cada 6 horas se ejecutara tu funcion Lambda automaticamente e insertara los datos a la base de datos
 
-<img width="1130" alt="Captura de pantalla 2023-06-12 a la(s) 4 04 25 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/1ccdb05c-0340-4794-812d-08a4362fd6e7">
+
+<img width="1130" alt="Captura de pantalla 2023-06-12 a la(s) 4 04 25 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/223ce549-c75a-4604-94e4-9196bf9c2266">
 
 ## Despliega una página web que muestre un gráfico con la información extraída de la base de datos
 
@@ -137,7 +147,7 @@ app.listen(port, () => {
 
 Creamos una conexion a nuestra base de datos usando Sequelize
 
-![conesequelize](https://github.com/JohanPosso/testfront/assets/74286128/c69c2100-446b-49ac-84ad-3712f6cae77c)
+![conesequelize](https://github.com/JohanPosso/testfront/assets/74286128/0e5f687f-eaaf-4df0-9fbf-ab4f309fab2c)
 
 Creamos un modelo, para interactuar con la base de datos
 
@@ -212,7 +222,8 @@ Usare una herramienta que simula en comportamiento del cliente para peticiones *
 
 Se hace una peticion GET como se configuro en el controlador para obtener los datos que contiene nuesta tabla en la base de datos
 
-<img width="1006" alt="Captura de pantalla 2023-06-12 a la(s) 5 43 30 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/fb77bbd3-a4f5-45f4-b276-9754075d8c7f">
+
+<img width="1023" alt="Captura de pantalla 2023-06-12 a la(s) 4 54 56 p  m" src="https://github.com/JohanPosso/testfront/assets/74286128/db7d9145-6783-4785-88a7-64e8cbc936c5">
 
 
 ```
@@ -284,7 +295,7 @@ Chart.register(
 Ejecutamos el proyecto el cual internamente levanta un servidor en un puerto disponible, y de este esta manera visualizamos los datos que extraimos de la API, en un grafico
 
 
-<img width="1438" alt="Captura de pantalla 2023-06-12 a la(s) 6 04 21 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/f419d8d9-c4bd-43cc-81f9-168d018bf455">
+<img width="1438" alt="Captura de pantalla 2023-06-12 a la(s) 6 04 21 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/af5aa529-e745-4337-b9e4-d6a66778c069">
 
 
 
@@ -364,14 +375,14 @@ Reemplaza puerto-host con el puerto en el que deseas que el contenedor escuche e
 Puedes usar **Docker Desktop** para la adminstracion de tus imagenes y contenedores
 
 
-<img width="1260" alt="Captura de pantalla 2023-06-12 a la(s) 6 22 27 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/f94aca5c-a7ad-4a56-9bd4-b69f6d8a1c94">
+<img width="1260" alt="Captura de pantalla 2023-06-12 a la(s) 6 22 27 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/6a3b0496-70ad-48d8-b57c-3a897b0a3a4a">
 
 
 
 Ademas puedes usar **Docker Hub** es un servicio en la nube que ofrece un registro de imágenes de contenedores Docker. Es una plataforma centralizada donde los desarrolladores pueden publicar, compartir y descargar imágenes de contenedores preconfiguradas para facilitar el despliegue de aplicaciones en entornos Docker.
 
 
-<img width="1424" alt="Captura de pantalla 2023-06-12 a la(s) 6 26 05 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/cfdfce52-20c5-4fe6-8977-8053d449d7dc">
+<img width="1424" alt="Captura de pantalla 2023-06-12 a la(s) 6 26 05 a  m" src="https://github.com/JohanPosso/testfront/assets/74286128/0e871f6d-5136-4743-b725-0494d8291aa2">
 
 
 
